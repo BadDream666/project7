@@ -2,6 +2,7 @@ import src.masks
 
 
 def mask_account_card(card_number: str) -> str:
+    """Функция, максирующая счета и карты"""
     if "Счет" in card_number:
         return src.masks.get_mask_account(card_number)
     else:
@@ -13,6 +14,7 @@ def mask_account_card(card_number: str) -> str:
 #print(mask_account_card("MasterCard 7158300734726758"))
 
 def get_data(data: str) -> str:
+    """Функция, преобразующая формат даны"""
     return f"{data[8:10]}.{data[5:7]}.{data[0:4]}"
 
 #print(get_data("2018-07-11T02:26:18.671407"))
