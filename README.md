@@ -8,12 +8,22 @@
 ```
 git clone https://github.com/BadDream666/project7.git
 ```
-
-2. Сделайте умное лицо, будто бы понимаете что тут написано
-![alt текст](https://sotni.ru/wp-content/uploads/2023/08/umnoe-litso-17.webp)
-
-3. Отдохните и усвойте информацию
+2. Убедитесь что все файлы стоят на своих местах. **Должно быть не менее трёх файлов** в папке src
 
 ## Использование:
-1. Удалите в файлах masks.py, widget.py "#" 
+1. Удалите в файлах masks.py, widget.py и processing.py пометку комментария("#") 
 2. Запустите код
+3. Закоментируйте код в изначальный вид
+
+### Пример использования:
+1. В конце каждой функции есть закомментированный print
+```
+def sort_by_date(original_list: list[dict], reverse=True) -> list[dict]:
+    """Функиця, сортирующая исходные данные по дате"""
+
+    sorted_list: list[dict] = sorted(original_list, key=lambda inform_state: inform_state["date"], reverse=reverse)
+    return sorted_list
+
+#print(sort_by_date(original_list, True))
+```
+2. Удалите символ # и запустите код

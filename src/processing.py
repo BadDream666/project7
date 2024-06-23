@@ -1,4 +1,4 @@
-orig_list = [
+original_list = [
     {'id': 41428829, 'state': 'EXECUTED', 'date': '2019-07-03T18:35:29.512364'},
     {'id': 939719570, 'state': 'EXECUTED', 'date': '2018-06-30T02:08:58.425572'},
     {'id': 594226727, 'state': 'CANCELED', 'date': '2018-09-12T21:27:25.241689'},
@@ -6,25 +6,24 @@ orig_list = [
 ]
 
 
-def filter_by_state(original_list: list[str], state_id: str = "EXECUTED") -> list[dict[str]]:
+def filter_by_state(original_list: list[dict], state: str = "EXECUTED") -> list[dict]:
     """Функция, принимающая список словарей и выдает новый список с заданным ключом"""
 
-    new_list = []
+    filtered_list: list[dict] = []
 
-    for key in original_list:
-        if key.get("state") == state_id:
-            new_list.append(key)
-    return new_list
-
-
-#print(filter_by_state(orig_list, "CANCELED"))
+    for item in original_list:
+        if item.get("state") == state:
+            filtered_list.append(item)
+    return filtered_list
 
 
-def sort_by_date(inform_state: list[dict[str]], reverse=True) -> list[dict[str]]:
+#print(filter_by_state(original_list, "CANCELED"))
+#print(filter_by_state(original_list, "EXECUTED"))
+
+def sort_by_date(original_list: list[dict], reverse=True) -> list[dict]:
     """Функиця, сортирующая исходные данные по дате"""
 
-    sorted_inform_state = sorted(inform_state, key=lambda inform_state: inform_state["date"], reverse=reverse)
-    return sorted_inform_state
+    sorted_list: list[dict] = sorted(original_list, key=lambda inform_state: inform_state["date"], reverse=reverse)
+    return sorted_list
 
-
-#print(sort_by_date(orig_list, True))
+#print(sort_by_date(original_list, True))
