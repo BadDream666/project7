@@ -11,8 +11,6 @@ def mask_account_card(card_number: str) -> str:
         return new_card
 
 
-
 def get_data(data: str) -> str:
     """Функция, преобразующая формат даны"""
     return f"{data[8:10]}.{data[5:7]}.{data[0:4]}"
-

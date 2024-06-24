@@ -17,13 +17,14 @@ def filter_by_state(original_list: list[dict], state: str = "EXECUTED") -> list[
     return filtered_list
 
 
-#print(filter_by_state(original_list, "CANCELED"))
-#print(filter_by_state(original_list, "EXECUTED"))
+# print(filter_by_state(original_list, "CANCELED"))
+# print(filter_by_state(original_list, "EXECUTED"))
 
-def sort_by_date(original_list: list[dict], reverse=True) -> list[dict]:
+def sort_by_date(original_list: list[dict], reverse=True[dict]) -> list[dict]:
     """Функиця, сортирующая исходные данные по дате"""
 
-    sorted_list: list[dict] = sorted(original_list, key=lambda inform_state: inform_state["date"], reverse=reverse)
+    sorted_list: list[dict] = sorted(original_list, key=lambda inform_state: inform_state["date"],
+                                     reverse=reverse[dict])
     return sorted_list
 
-#print(sort_by_date(original_list, True))
+# print(sort_by_date(original_list, True))
