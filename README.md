@@ -27,3 +27,6 @@ def sort_by_date(original_list: list[dict], reverse=True) -> list[dict]:
 #print(sort_by_date(original_list, True))
 ```
 2. Удалите символ # и запустите код
+
+### Тестирование:
+Тестирование находится в папке htmlcov. Для проверки статуса тестирования в веб- интерфейсе нужно запустить index.html
