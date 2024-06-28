@@ -45,7 +45,7 @@ def test_filter_by_state(list_, str_word, expected):
 
 
 @pytest.mark.parametrize(
-    "y, expected",
+    "sorted_dates, expected",
     [
         (
                 [
@@ -59,5 +59,5 @@ def test_filter_by_state(list_, str_word, expected):
         )
     ],
 )
-def test_sort_by_date(y, expected):
-    assert sort_by_date(y) == expected
+def test_sort_by_date(sorted_dates, expected):
+    assert sort_by_date(sorted_dates) == expected
