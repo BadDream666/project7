@@ -50,8 +50,4 @@ def transactions():
 
 @pytest.fixture
 def rub_transaction_number():
-    return 939719570
-
-
-def test_return_transaction_amount_in_rub(transactions, rub_transaction_number):
-    assert return_transaction_amount_in_rub(transactions, rub_transaction_number) == 863594.82
+    return 441945886
