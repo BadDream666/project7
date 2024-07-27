@@ -28,3 +28,7 @@ if __name__ == '__main__':
     print(filter_by_state(original_list, "EXECUTED"))
 
     print(sort_by_date(original_list, True))
+
+
+def original_list():
+    return None
