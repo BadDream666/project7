@@ -1,7 +1,6 @@
 import json
-from typing import Any
-from src.external_api import convert_to_rub
 import logging
+import pandas as pd
 
 logging.basicConfig(
     level=logging.INFO,
@@ -13,50 +12,94 @@ logging.basicConfig(
 logger = logging.getLogger("utils")
 
 
-def get_transactions_dictionary(path: str) -> Any:
-    """Принимает путь до JSON-файла и возвращает список словарей с данными о финансовых транзакциях"""
+def get_info_transactions(path_file: str) -> list[dict]:
+    """
+    Функция принимает путь до файла и возвращает операции в исходном файле
+    в формате list[dict]
+    """
     try:
-        logger.info("Getting transaction list starts")
-        with open(path, "r", encoding="utf-8") as operations:
+        logger.info("Открываем файл...")
+
+        with open(path_file, encoding="utf-8") as file:
             try:
-                transactions_data = json.load(operations)
-                logger.info("Transactions list ready")
-                return transactions_data
+                file_dict = json.load(file)
+                logger.info("смотрим содержимое файла, формат list()")
+
+                if type(file_dict) is not list:
+                    logger.warning("файл не формата list()")
+                    logger.info("Завершение работы")
+                    return []
+
+                logger.info("файл корректный, возвращаем содержимое")
+                logger.info("Завершение работы")
+                return file_dict
+
             except json.JSONDecodeError:
-                logger.error("Decode error")
-                transactions_data = []
-                return transactions_data
+                logger.warning("файл не может быть прочитан, неверный формат")
+                logger.info("Завершение работы")
+                return []
+
     except FileNotFoundError:
-        logger.error("File was not found")
-        transactions_data = []
-        return transactions_data
+        logger.warning("файл не найден, неверный путь до файла")
+        logger.info("Завершение работы")
+        return []
 
 
-def return_transaction_amount_in_rub(transactions: list, transaction_id: int) -> Any:
-    """Принимает транзакцию и возвращает сумму в рублях, если операция не в рублях, конвертирует"""
-    logger.info("Getting operation amount starts")
-    for transaction in transactions:
-        if transaction.get("id") == transaction_id:
-            if transaction["operationAmount"]["currency"]["code"] == "RUB":
-                rub_amount = transaction["operationAmount"]["amount"]
-                logger.info(f"Operation amount in RUB:{rub_amount}")
-                return rub_amount
-            else:
-                transaction_convert = dict()
-                transaction_convert["amount"] = transaction["operationAmount"]["amount"]
-                transaction_convert["currency"] = transaction["operationAmount"]["currency"]["code"]
-                logger.info(f"Operation amount in {transaction_convert["currency"]}:{transaction_convert["amount"]}")
-                rub_amount = round(convert_to_rub(transaction_convert), 2)
-                if rub_amount != 0:
-                    logger.info(f"Operation amount in RUB:{rub_amount}")
-                    return rub_amount
-                else:
-                    logger.error("Operation amount can't be converted to RUB")
-                    return "Конвертация не может быть выполнена"
-        else:
-            return "Транзакция не найдена"
+def get_info_transactions_csv(path_file: str) -> list[dict] | list:
+    """
+    Функция принимает путь до файла и возвращает операции в исходном файле
+    в формате list[dict]
+    """
+    try:
+        logger.info("Открываем файл...")
+
+        with open(path_file, encoding="utf-8") as file:
+            try:
+                file_dict = pd.read_csv(file, delimiter=";")
+                logger.info("смотрим содержимое файла, формат pd.DataFrame")
+
+                if type(file_dict) is not pd.DataFrame:
+                    logger.warning("файл не формата pd.DataFrame")
+                    logger.info("Завершение работы")
+                    return []
+                logger.info("файл корректный, возвращаем содержимое")
+                logger.info("Завершение работы")
+                return file_dict.to_dict(orient="records")
+
+            except json.JSONDecodeError:
+                logger.warning("файл не может быть прочитан, неверный формат")
+                logger.info("Завершение работы")
+                return []
+    except FileNotFoundError:
+        logger.warning("файл не найден, неверный путь до файла")
+        logger.info("Завершение работы")
+        return []
 
 
-if __name__ == "__main__":
-    transactions = get_transactions_dictionary("../data/operations.json")
-    print(return_transaction_amount_in_rub(transactions, 939719570))
+def get_info_transactions_xlsx(path_file: str) -> list[dict] | list:
+    """
+    Функция принимает путь до файла и возвращает операции в исходном файле
+    в формате list[dict]
+    """
+    try:
+        logger.info("Открываем файл...")
+        file_dict = pd.read_excel(path_file, index_col=0)
+        logger.info("смотрим содержимое файла, формат pd.DataFrame")
+        if type(file_dict) is not pd.DataFrame:
+            logger.warning("файл не формата pd.DataFrame")
+            logger.info("Завершение работы")
+            return []
+
+        logger.info("файл корректный, возвращаем содержимое")
+        logger.info("Завершение работы")
+        return file_dict.to_dict(orient="records")
+
+    except json.JSONDecodeError:
+        logger.warning("файл не может быть прочитан, неверный формат")
+        logger.info("Завершение работы")
+        return []
+
+    except FileNotFoundError:
+        logger.warning("файл не найден, неверный путь до файла")
+        logger.info("Завершение работы")
+        return []
